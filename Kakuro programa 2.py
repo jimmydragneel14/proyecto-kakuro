@@ -10,11 +10,15 @@ import random
 from tkinter import messagebox
 global kakuro #se declara kakuro como global
 global jugada
+global cont_nivel
+cont_nivel=0
 jugada=[]
 audio_global=False
 lista_top_uno=[]
 lista_top_dos=[]
 lista_top_tres=[]
+contenido=[]
+lista_jugada=[]
 
 def reproducir_audio():#funcion para ejecutar musica
     global audio_global
@@ -201,7 +205,7 @@ def jugar():#funcion donde se encuentra la tabla y botones del juego
     boton_iniciar= Button(kakuro, text="Iniciar Juego",  fg= "black", bg="salmon", width=2, height=1, font="Arial 12", padx=40, pady=6, command=lambda:iniciar(lista_boton))
     boton_iniciar.place(x=100,y= 560)
 
-    boton_borrar_jugada= Button(kakuro, text="Borrar jugada",  fg= "black", bg="cadet blue", width=2, height=1, font="Arial 12", padx=40, pady=6,state="disabled", command=borrar_jugada)
+    boton_borrar_jugada= Button(kakuro, text="Deshacer jugada",  fg= "black", bg="cadet blue", width=2, height=1, font="Arial 12", padx=40, pady=6,state="disabled", command=borrar_jugada)
     boton_borrar_jugada.place(x=240,y= 560)
 
     boton_terminar= Button(kakuro, text="Terminar juego",  fg= "black", bg="cyan", width=2, height=1, font="Arial 12", padx=44, pady=6,state="disabled", command=terminar_juego)
@@ -209,6 +213,9 @@ def jugar():#funcion donde se encuentra la tabla y botones del juego
 
     boton_borrar_juego= Button(kakuro, text="Borrar juego",  fg= "black", bg="RoyalBlue1", width=2, height=1, font="Arial 12", padx=35, pady=6,state="disabled", command=borrar_juego)
     boton_borrar_juego.place(x=530,y= 560)
+
+    boton_rehacer= Button(kakuro, text="Rehacer Jugada",  fg= "black", bg="silver", width=2, height=1, font="Arial 12", padx=50, pady=5, command=rehacer_jugada)
+    boton_rehacer.place(x=650,y= 660)
 
 ##    boton_top= Button(kakuro, text="Top 10",  fg= "black", bg="gold", width=2, height=1, font="Arial 12", padx=20, pady=6,state="disabled", command=top10)
 ##    boton_top.place(x=660,y= 560)
@@ -443,7 +450,7 @@ def entry(matriz):#funcion que crea la tabla
                 lista_num[fila].append(x)#se agrega en lista_num, el entry
                 columna=columna+1#se suma uno para poder recorrer la matriz
                 
-            if casilla !=0 and casilla!=-1:#si la casilla es diferente de -1 y 0, sucede esto:
+            if casilla !=0 and casilla!=-1:#si la casilla es diferente de -1 y 0, sucede esto
                 if n not in casilla:#si no posee ".", osea n, no es un label, sino un entry con un digito previamente ingresado
                     sv = StringVar()
                     matrizInterfaz[fila][columna] = sv
@@ -453,12 +460,16 @@ def entry(matriz):#funcion que crea la tabla
                     x.insert(0,casilla)
                     lista_num[fila].append(x)
                     columna=columna+1
-        
+                    direccion.append(x)
                 if n in casilla:#si tiene un ".", osea n, significa que es un label con el numero clave
-                    x=Label(marco,text=casilla,bg="azure",fg="black",width=2, state="disabled", font="Arial 10", justify="center", padx=10, pady=9)
+                    variable=casilla
+                    matrizInterfaz[fila][columna] = str(variable)
+                    variable_real=matrizInterfaz[fila][columna]            
+                    x=Button(marco,text=casilla,bg="azure",fg="black",width=2, font="Arial 10", padx=10, pady=9, command=lambda  variable=variable: combinaciones(str(variable)))
                     x.grid(column=columna,row=fila)
                     columna=columna+1
                     lista_num[fila].append(casilla)
+                    print(casilla)
         columna=0
         fila=fila+1
     
@@ -519,10 +530,27 @@ def matriz_espacios():#funcion que sirve para poder obtener una matriz que muest
 
 def borrar_jugada():
     global jugada
+    global lista_jugada
+    global contenido
+    if len(jugada)==0:
+        messagebox.showinfo("Aviso","No has ingresado ninguna jugada para borrar!!! >:v ")# se envia un aviso
     ultima=jugada[len(jugada)-1]
+    lista_jugada.append(ultima)
+    contenido.append(ultima.get())
     ultima.delete(0,END)
     jugada.remove(ultima)
-    
+
+def rehacer_jugada():
+    global lista_jugada
+    global contenido
+    global jugada
+    if len(lista_jugada)==0:
+        messagebox.showinfo("Aviso","No hay ninguna por rehacer, ya que no se realizado ninguna!!!")# se envia un aviso
+    lista_jugada[len(lista_jugada)-1].insert(0,contenido[len(contenido)-1])#se inserta la ultima jugada en su entry respectivo
+    jugada.append(lista_jugada[len(lista_jugada)-1])
+    contenido.pop()
+    lista_jugada.remove(lista_jugada[len(lista_jugada)-1])
+
     
 def pasa_valor():#funcion para verificar si se repiten numero en una misma columna o fila 
     global lista
