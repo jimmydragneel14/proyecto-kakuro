@@ -523,8 +523,14 @@ def matriz_espacios():#funcion que sirve para poder obtener una matriz que muest
     if cont2!=0:
         pass
     if cont==9:
-        messagebox.showinfo("Felicidades", "En esta larga travesia, has completado el juegos, ahora eres una leyenda...")
-        terminar_juego()
+        if nivel.get()=="Multinivel":
+            answer=messagebox.askquestion("Aviso","Has logrado completar el juego, deseas continuar?")
+            if answer=="yes" and nivel.get()=="Multinivel":#condicion para multinivel
+                leer_archivo_partidas()
+            else:
+                messagebox.showinfo("Felicidades"," Has completado la tabla ")# se envia un aviso
+            
+    
     print(valor)
     return valor
 
