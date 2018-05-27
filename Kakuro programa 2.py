@@ -722,7 +722,31 @@ def combinaciones(casilla):
         casilla=solo_numeros(casilla)
         combi=pruebas(int(space),int(casilla[0]))
         print(combi)
+def solo_numeros(casilla):
+    punto="."
+    barra="/"
+    
+    if punto in casilla or barra in casilla:
         
+        result = solo_numeros_aux(casilla,"",0,[],casilla)
+        print(result)
+        return result
+        
+    if punto not in casilla and barra not in casilla:
+        return casilla
+        
+
+def solo_numeros_aux(casilla,result,cont,contenedor,casilla_copia):
+    if len(casilla_copia)==cont:
+        return contenedor
+    if casilla[0].isdigit()==True:
+        return solo_numeros_aux(casilla[1:],result+casilla[0],cont+1,contenedor,casilla_copia)
+    if casilla[0].isdigit()==False:
+        if result!="":
+            return solo_numeros_aux(casilla[1:],"",cont+1,contenedor+[result],casilla_copia)
+        else:
+            return solo_numeros_aux(casilla[1:],"",cont+1,contenedor,casilla_copia)
+
 def configurar():#funcion que abre la ventana de configuracion
     global linea_horas
     global linea_minutos
