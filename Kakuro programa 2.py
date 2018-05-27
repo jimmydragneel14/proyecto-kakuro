@@ -589,7 +589,14 @@ def matriz_espacios():#funcion que sirve para poder obtener una matriz que muest
     
     print(valor)
     return valor
+def pasa_espacios():
+    global valor
+    pasa_espacios_aux(valor,0,casilla,0)
 
+def pasa_espacios_aux(valor,cont,casilla,cont2):
+    global lista
+    #if valor[lista[cont][2]][[cont][3]]==casilla:
+        
 def borrar_jugada():
     global jugada
     global lista_jugada
@@ -746,7 +753,45 @@ def solo_numeros_aux(casilla,result,cont,contenedor,casilla_copia):
             return solo_numeros_aux(casilla[1:],"",cont+1,contenedor+[result],casilla_copia)
         else:
             return solo_numeros_aux(casilla[1:],"",cont+1,contenedor,casilla_copia)
+def permutaciones(m,n):
+    if m==2:
+        return pares(n)
+    else:
+        return permutaciones_aux(m,n,[],0,pares(n))
 
+def permutaciones_aux(m,n,lista,cont,ps):
+    
+    if cont>len(pares(n)):
+        return []
+    else:
+         x = permutaciones_aux(m-1,ps[cont][0],cont+1,ps[1:])
+         return [ps[cont][0]+x[cont][0]] + permutaciones_aux(m-1,ps[cont][0],cont+1,ps[1:])
+
+##def pares(n):
+##    return pares_aux(n,1)
+
+def pares(n):
+    lista=[]
+    for i in range(n+1):
+        lista.append([i,n-i])
+    return lista
+##    if cont>n:
+##        return []
+##    else:
+##        return [[cont,n-cont]]+ pares_aux(n,cont+1)
+
+def pruebas(m,n):
+    
+    if m==2:
+        return pares(n)
+    else:
+        par=[]
+        ps=pares(n)
+        for p in ps:
+            xs = pruebas(m-1,p[1])
+            for x in xs:
+                par.append([p[0]] + x)
+        return par
 def configurar():#funcion que abre la ventana de configuracion
     global linea_horas
     global linea_minutos
@@ -991,11 +1036,16 @@ def entry_lineas(matriz):#funcion para crear la tabla de la partida guardada
                     lista_num[fila].append(x)
                     columna=columna+1
         
-                if n in casilla:#si tiene un ".", significa que es un label con el numero clave 
-                    x=Label(marco,text=casilla,bg="azure",fg="black",width=2, state="disabled", font="Arial 10", justify="center", padx=8, pady=8)
-                    x.grid(column=columna,row=fila)
-                    columna=columna+1
-                    lista_num[fila].append(casilla)
+                
+            if n in casilla:#si tiene un ".", osea n, significa que es un label con el numero clave
+                variable=casilla
+                matrizInterfaz[fila][columna] = str(variable)
+                variable_real=matrizInterfaz[fila][columna]            
+                x=Button(marco,text=casilla,bg="azure",fg="black",width=2, font="Arial 10", padx=10, pady=9, command=lambda  variable=variable: combinaciones(str(variable)))
+                x.grid(column=columna,row=fila)
+                columna=columna+1
+                lista_num[fila].append(casilla)
+                print(casilla)
         columna=0
         fila=fila+1
 
