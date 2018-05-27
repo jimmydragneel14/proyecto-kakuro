@@ -702,7 +702,27 @@ def revisa_suma():# funcion que sirve para poder revisar si la suma de los digit
             contenedor=[]
     
         
-    
+def combinaciones(casilla):
+    barra ="/"
+    letra=","
+    if barra in casilla:
+        indice=casilla.find(",")
+        space=casilla[indice+1]
+        casilla=solo_numeros(casilla)
+        combi=pruebas(int(space),int(casilla[0]))
+        if letra in casilla:
+            indice=casilla.find(",")
+            space=casilla[indice+1]
+        
+            casilla=solo_numeros(casill)
+            combi=pruebas(space,int(casilla[1]))
+    else:
+        indice=casilla.find(",")
+        space=casilla[indice+1]        
+        casilla=solo_numeros(casilla)
+        combi=pruebas(int(space),int(casilla[0]))
+        print(combi)
+        
 def configurar():#funcion que abre la ventana de configuracion
     global linea_horas
     global linea_minutos
