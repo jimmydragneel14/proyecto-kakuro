@@ -11,6 +11,7 @@ from tkinter import messagebox
 global kakuro #se declara kakuro como global
 global jugada
 global cont_nivel
+global lista_frases
 cont_nivel=0
 jugada=[]
 audio_global=False
@@ -18,7 +19,10 @@ lista_top_uno=[]
 lista_top_dos=[]
 lista_top_tres=[]
 contenido=[]
+cont_frases=0
 lista_jugada=[]
+lista_frases=["El anime más largo tiene más de 7400 episodios", "“El Viaje de Chihiro” fue el primer anime en ganar un Oscar", "Los titanes de “Shingeki no Kyojin” están inspirados en una persona borracha","Un personaje de anime en particular tiene 22 actrices de voz diferentes",
+              "Para ganar algo necesitas algo del mismo valor...\n Este es el principio del Intercambio Equivalente","Dime, ¿qué crees tú que es la muerte? ¿Un balazo en mitad del corazón? No.\n ¿Una enfermedad que consuma el cuerpo? Tampoco. ¿Un veneno que corrompa la sangre? \n No, señor. La muerte es cuando el mundo te olvida."]
 
 def reproducir_audio():#funcion para ejecutar musica
     global audio_global
@@ -276,6 +280,7 @@ def jugar():#funcion donde se encuentra la tabla y botones del juego
 
     boton_cargar=Button(kakuro, text="Cargar juego", fg="black", bg="gold", font="Arial 12", padx=20, pady=4, command=cargar_partida)
     boton_cargar.place(x=500,y=660)
+    
     leer_archivo_partidas()
     def top10():
         global texto_nombre
@@ -305,8 +310,30 @@ def jugar():#funcion donde se encuentra la tabla y botones del juego
     boton_top= Button(kakuro, text="Top 10",  fg= "black", bg="gold", width=2, height=1, font="Arial 12", padx=20, pady=6,state="disabled", command=top10)
     boton_top.place(x=660,y= 560)
 
+    boton_frase= Button(kakuro, text="Datos curiosos y frases",fg= "black", bg="gold", width=2, height=1, font="Arial 12", padx=80, pady=6,command=frases)
+    boton_frase.place(x=100,y= 10)
+    
+
     lista_boton=[boton1,boton2,boton3,boton4,boton5,boton6,boton7,boton8,boton9, boton_iniciar, boton_borrar_jugada, boton_terminar, boton_top,boton_borrar_juego]
 
+def frases():
+    global lista_frases
+    global cont_frases
+    datos= Tk()#se crea una ventana
+    datos.title("Datos curiosos")
+    datos.geometry("950x100")#Se define el tamaño del menu
+    datos.resizable(0,0)#se redimensiona la ventana
+    datos.configure(background="gray")#se pone un color a la ventana
+    if cont_frases>len(lista_frases)-1:
+        cont_frases=0
+    
+    curioso=lista_frases[cont_frases]
+    cont_frases=cont_frases+1
+    texto_frase=Label(datos, text=curioso, fg="black", bg="gray", font="Arial 12").place(x=100,y=30)
+
+    
+
+    
 def top_ventana():
     ventana_top=Tk()
     ventana_top.title("Top 10: Las leyendas")
