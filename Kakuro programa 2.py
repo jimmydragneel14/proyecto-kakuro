@@ -86,16 +86,44 @@ def leer_archivo_partidas():#funcion que nos permite el archivo en donde viene l
     lineas=f.readlines()#se leen las lineas dearchivo
     if nivel.get()=="1 Neurona":#condiciones para acceder a diversos niveles
         partida=lineas[0]
+        partida=eval(partida)#se quitan los strings
+        lista=random.choice(partida)#se saca una partida aleatoria
+        celdas(lista)
     if nivel.get()=="2 Neuronas":
         partida=lineas[1]
+        partida=eval(partida)#se quitan los strings
+        lista=random.choice(partida)#se saca una partida aleatoria
+        celdas(lista)
     if nivel.get()=="3 Neuronas":
         partida=lineas[2]
+        partida=eval(partida)#se quitan los strings
+        lista=random.choice(partida)#se saca una partida aleatoria
+        celdas(lista)
+    if nivel.get()=="Multinivel":
+        if cont_nivel==2:
+            partida=eval(lineas[2])
+            partida=partida[0]
+            cont_nivel=cont_nivel+1
+            lista=partida
+            celdas(lista)
+        if cont_nivel<2:#si es menor a 2, va a entrar al nivel 1 o 2, dependiendo del estado del contador
+            partida=eval(lineas[cont_nivel])#se saca la partida correspondiente, dependiendo del estado del contador
+            partida=partida[0]#se saca la primera tabla del nivel correspondiente
+            cont_nivel=cont_nivel+1#se suma uno para cuando complete la tabla, se pueda pasar de nivel
+            lista=partida#se defina la lista con la que se va revisar la tabla
+            celdas(lista)#se crea la tabla
+        if cont_nivel>2:#si el contador es mayor que 2, el juego se queda en el nivel de 3 neuroas
+            partida=lineas[2]#se saca la partida del archivo
+            partida=eval(partida)#se quitan los strings
+            lista=random.choice(partida)#se saca una partida aleatoria
+            celdas(lista)#se crea la tabla
+        
     if nivel.get()=="":
         pass
-    partida=eval(partida)#se quitan los strings
-    lista=random.choice(partida)#se saca una partida aleatoria
+    #partida=eval(partida)#se quitan los strings
+    #lista=random.choice(partida)#se saca una partida aleatoria
     
-    celdas(lista)#se forma la tabla, utilizando las indicaciones que se obtuvieron del archivo
+    #celdas(lista)#se forma la tabla, utilizando las indicaciones que se obtuvieron del archivo
     f.close()#se cierra el archivo
 def celdas(lista):#funcion para crear la matriz grafica del juego
     
@@ -684,7 +712,7 @@ def configurar():#funcion que abre la ventana de configuracion
     Label(configuracion, text="Nivel", fg="black", bg="green2", font="Arial 16").place(x=500,y=260)
     nivel=ttk.Combobox(configuracion)#se crea una lista desplegable 
     nivel.place(x=460, y = 300)
-    nivel["values"]=["1 Neurona","2 Neuronas","3 Neuronas"]
+    nivel["values"]=["1 Neurona","2 Neuronas","3 Neuronas","Multinivel"]
     
 
 
