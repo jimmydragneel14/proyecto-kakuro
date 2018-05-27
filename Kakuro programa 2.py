@@ -82,6 +82,7 @@ def leer_archivo_partidas():#funcion que nos permite el archivo en donde viene l
     global nivel
     global lista
     global partida
+    global cont_nivel
     f = open("kakuro2018partidas.txt")#se abre el archivo
     lineas=f.readlines()#se leen las lineas dearchivo
     if nivel.get()=="1 Neurona":#condiciones para acceder a diversos niveles
