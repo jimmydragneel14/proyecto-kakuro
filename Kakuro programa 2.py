@@ -127,10 +127,10 @@ def celdas(lista):#funcion para crear la matriz grafica del juego
         casilla_compartida="" #variable para formar el numero clave
         #Button(marco, text=numero,  fg= "black", bg="white", width=2, height=1, padx=12, pady=6).grid(column=num_columna,row=num_fila)
         if matriz[num_fila][num_columna]!=-1 and matriz[num_fila][num_columna]!=0:#si el numero en la matriz no es un 0 o un -1, sucede esto:
-            casilla_compartida=casilla_compartida+str(matriz[num_fila][num_columna])+"\\"+ str(numero)+"."#se deduce que va a ser donde va el numero clave
+            casilla_compartida=casilla_compartida+str(matriz[num_fila][num_columna])+"/"+ str(numero)+"." + "," + str(cantidad_espacios)#se deduce que va a ser donde va el numero clave
             matriz[num_fila][num_columna]=casilla_compartida#se pone el numero clave, esta variable funcion cuando hay mas de un numero clave compartiendo una misma casilla
         else:
-            matriz[num_fila][num_columna]=str(numero)+"."#se coloca un numero clave
+            matriz[num_fila][num_columna]=str(numero)+"." + "," + str(cantidad_espacios)#se coloca un numero clave
         casilla_compartida=""#se resetea la variabla
     
         casillas_blanco(matriz, num_fila, num_columna,cantidad_espacios, forma)#se llama a esta funcion para poner los "0"  que van a funcionar de indicadores para poner los entrys
