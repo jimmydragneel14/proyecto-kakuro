@@ -1005,7 +1005,7 @@ def acerca_de():#funcion con los detalles del programa
     #se hace un texto con el nombre del programa
     Label(info, text= "Nombre del programa: Kakuro",fg="black",bg="gold", font=("Arial",18), padx=8, bd=6).place(x=200,y=160)
     #se hace un texto del numero de version
-    Label(info, text= "Version: 1.0",fg="black",bg="gold", font=("Arial",18), padx=8, bd=6).place(x=330,y=230)
+    Label(info, text= "Version: 2.0",fg="black",bg="gold", font=("Arial",18), padx=8, bd=6).place(x=330,y=230)
     #se hace un texto de la fecha de creacion
     Label(info, text= "Fecha de creacion: 4 de Mayo del 2018",fg="black",bg="gold", font=("Arial",18), padx=8, bd=6).place(x=185,y=300)
     #se hace un texto del nombre del autor
