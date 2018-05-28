@@ -713,16 +713,21 @@ def combinaciones(casilla):
     barra ="/"
     letra=","
     if barra in casilla:
-        indice=casilla.find(",")
-        space=casilla[indice+1]
-        casilla=solo_numeros(casilla)
-        combi=pruebas(int(space),int(casilla[0]))
-        if letra in casilla:
-            indice=casilla.find(",")
-            space=casilla[indice+1]
+        #indice=casilla.find(",")
+        #space=casilla[indice+1]
+        lista_casilla=solo_numeros(casilla)
         
-            casilla=solo_numeros(casill)
-            combi=pruebas(space,int(casilla[1]))
+        combi=pruebas(int(lista_casilla[1]),int(lista_casilla[0]))
+        casilla_2=solo_numeros(lista_casilla)
+        combi_2=pruebas(int(lista_casilla[3]),int(lista_casilla[2]))
+        print(combi,combi_2)
+        #combi=pruebas(int(space),int(casilla[0]))
+##        if letra in casilla:
+##            indice=casilla.find(",")
+##            space=casilla[indice+1]
+##        
+##            casilla=solo_numeros(casill)
+##            combi=pruebas(space,int(casilla[1]))
     else:
         indice=casilla.find(",")
         space=casilla[indice+1]        
@@ -744,6 +749,9 @@ def solo_numeros(casilla):
         
 
 def solo_numeros_aux(casilla,result,cont,contenedor,casilla_copia):
+    if len(casilla_copia)==cont and casilla=="":
+        if result!="":
+            return contenedor + [result]
     if len(casilla_copia)==cont:
         return contenedor
     if casilla[0].isdigit()==True:
