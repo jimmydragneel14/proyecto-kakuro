@@ -22,8 +22,8 @@ lista_top_tres=[]
 contenido=[]
 cont_frases=0
 lista_jugada=[]
-lista_frases=["El anime más largo tiene más de 7400 episodios", "“El Viaje de Chihiro” fue el primer anime en ganar un Oscar", "Los titanes de “Shingeki no Kyojin” están inspirados en una persona borracha","Un personaje de anime en particular tiene 22 actrices de voz diferentes",
-              "Para ganar algo necesitas algo del mismo valor...\n Este es el principio del Intercambio Equivalente","Dime, ¿qué crees tú que es la muerte? ¿Un balazo en mitad del corazón? No.\n ¿Una enfermedad que consuma el cuerpo? Tampoco. ¿Un veneno que corrompa la sangre? \n No, señor. La muerte es cuando el mundo te olvida."]
+lista_frases=["Recuerda que no debes tener los mismos en la fila \n y columna que estas usando","El anime más largo tiene más de 7400 episodios", "“El Viaje de Chihiro” fue el primer anime en ganar un Oscar", "Los titanes de “Shingeki no Kyojin” están inspirados en una persona borracha","Un personaje de anime en particular tiene 22 actrices de voz diferentes",
+              "Para ganar algo necesitas algo del mismo valor...\n Este es el principio del Intercambio Equivalente","Dime, ¿qué crees tú que es la muerte? ¿Un balazo en mitad del corazón? No.\n ¿Una enfermedad que consuma el cuerpo? Tampoco. ¿Un veneno que corrompa la sangre? \n No, señor. La muerte es cuando el mundo te olvida.","Que harás cuando la justicia no pueda ganarle a la maldad derrotaras maldad con \n maldad o aceptaras que la justicia no puede ganar a la maldad"]
 
 def reproducir_audio():#funcion para ejecutar musica
     global audio_global
@@ -289,7 +289,9 @@ def jugar():#funcion donde se encuentra la tabla y botones del juego
 
     boton_frase= Button(kakuro, text="Datos curiosos y frases",fg= "black", bg="gold", width=2, height=1, font="Arial 12", padx=80, pady=6,command=frases)
     boton_frase.place(x=100,y= 10)
-    
+
+    boton_impresion= Button(kakuro, text="Impresion Top",fg= "black", bg="gold", width=2, height=1, font="Arial 12", padx=60, pady=6,command=impresion)
+    boton_impresion.place(x=100,y= 500)
 
     lista_boton=[boton1,boton2,boton3,boton4,boton5,boton6,boton7,boton8,boton9, boton_iniciar, boton_borrar_jugada, boton_terminar, boton_top,boton_borrar_juego]
 
@@ -316,7 +318,29 @@ def top10():
         f=open("kakuro2018top10","w")
         f.write(str(top))
         f.close()
-        
+
+def impresion():
+    global pdf
+    f=open("kakuro2018top10","r")
+    
+    
+    pdf=canvas.Canvas("Impresion.pdf")
+    pdf.drawString(10,10,"Top 10 de leyendas")
+    pdf.showPage()
+    pdf.save()
+    lineas=f.readlines()
+    return impresion_aux(lineas,0,40,60)
+    f.close()
+
+def impresion_aux(lineas,cont,x,y):
+    global pdf
+    if len(lineas)-1==cont:
+        return 0
+    else:
+        pdf.drawString(x,y,lineas[cont])
+        return impresion_aux(lineas,cont+1,x+40,y+70)
+
+    
 def frases():
     global lista_frases
     global cont_frases
@@ -1163,7 +1187,7 @@ def acerca_de():#funcion con los detalles del programa
     Label(info, text= "Autor: Jimmy Mok Zheng",fg="black",bg="gold", font=("Arial",18), padx=8, bd=6).place(x=260,y=370)
 
 def manual():#se usa "startfile" para abrir el archivo
-    os.startfile("manual_de_usuario_kakuro.pdf")
+    os.startfile("manual_de_usuario_kakuro_2.pdf")
     
 def ventana_salir():#funcion para abrir una ventana de confirmacion de salida
     global ventana_salir#se declaran variables globales
