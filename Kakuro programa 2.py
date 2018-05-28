@@ -707,9 +707,20 @@ def revisa_suma():# funcion que sirve para poder revisar si la suma de los digit
                     messagebox.showinfo("Aviso","La suma no concuerda con el numero clave")
             result=0
             contenedor=[]
-    
-        
+
+def ventana_combinaciones():
+    pantalla_combi= Tk()#se crea una ventana
+    pantalla_combi.title("Combinaciones")
+    pantalla_combi.geometry("800x770")#Se define el tamaño del menu
+    pantalla_combi.resizable(0,0)#se redimensiona la ventana
+    pantalla_combi.configure(background="green2")#se pone un color a la ventana
+
+    Label(pantalla_combi,text=combi,fg="black",bg="white",font="Arial 10").place(x=10,y=10)
 def combinaciones(casilla):
+    global combi_2
+    global combi
+    combi=""
+    combi_2=""
     barra ="/"
     letra=","
     if barra in casilla:
@@ -718,7 +729,7 @@ def combinaciones(casilla):
         lista_casilla=solo_numeros(casilla)
         
         combi=pruebas(int(lista_casilla[1]),int(lista_casilla[0]))
-        casilla_2=solo_numeros(lista_casilla)
+        
         combi_2=pruebas(int(lista_casilla[3]),int(lista_casilla[2]))
         print(combi,combi_2)
         #combi=pruebas(int(space),int(casilla[0]))
@@ -734,6 +745,14 @@ def combinaciones(casilla):
         casilla=solo_numeros(casilla)
         combi=pruebas(int(space),int(casilla[0]))
         print(combi)
+
+    pantalla_combi= Tk()#se crea una ventana
+    pantalla_combi.title("Combinaciones")
+    pantalla_combi.geometry("800x770")#Se define el tamaño del menu
+    pantalla_combi.resizable(0,0)#se redimensiona la ventana
+    pantalla_combi.configure(background="green2")#se pone un color a la ventana
+
+    Label(pantalla_combi,text=combi,fg="black",bg="white",font="Arial 10").place(x=10,y=10)
 def solo_numeros(casilla):
     punto="."
     barra="/"
