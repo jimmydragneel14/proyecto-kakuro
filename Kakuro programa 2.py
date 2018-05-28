@@ -1,4 +1,5 @@
-from tkinter import * #se importan las librerias necesarias para el juego
+from tkinter import * #se importan las librerias necesarias para el juego\
+from reportlab import *
 import os
 from tkinter import ttk
 import threading
@@ -105,12 +106,12 @@ def leer_archivo_partidas():#funcion que nos permite el archivo en donde viene l
         lista=random.choice(partida)#se saca una partida aleatoria
         celdas(lista)
     if nivel.get()=="Multinivel":
-        if cont_nivel==2:
-            partida=eval(lineas[2])
-            partida=partida[0]
-            cont_nivel=cont_nivel+1
-            lista=partida
-            celdas(lista)
+        if cont_nivel==2:#caso para cuando se va al nivel 3
+            partida=eval(lineas[2])#se quitan los strings
+            partida=partida[0]#se saca el nivel
+            cont_nivel=cont_nivel+1#se suma uno para seguir para luego seguir con el proximo nivel
+            lista=partida#Se define "lista"
+            celdas(lista)#se crea la tabla 
         if cont_nivel<2:#si es menor a 2, va a entrar al nivel 1 o 2, dependiendo del estado del contador
             partida=eval(lineas[cont_nivel])#se saca la partida correspondiente, dependiendo del estado del contador
             partida=partida[0]#se saca la primera tabla del nivel correspondiente
@@ -282,30 +283,6 @@ def jugar():#funcion donde se encuentra la tabla y botones del juego
     boton_cargar.place(x=500,y=660)
     
     leer_archivo_partidas()
-    def top10():
-        global texto_nombre
-        global horas, segundos, minutos
-        #nombre=StringVar()
-        #texto_nombre=Entry(kakuro, textvariable=nombre, font="Arial 10", width=30).place(x=470,y= 620)
-        lista_niveles=[]
-        name=texto_nombre.get()
-        if nivel.get()=="1 Neurona":
-            horas=horas*3600
-            minutos=minutos*60
-            datos=[]
-            segundos_total=horas+minutos+segundos
-            datos.append(name)
-            datos.append(segundos_total)
-        
-            lista_top_uno.insert(0,datos)
-            top=dict(lista_top_uno)
-            top=sorted(top)
-            if len(lista_top_uno)>10:
-                lista_top_uno.remove(len(lista_top_uno)-1)
-            lista_niveles.append(lista_top_uno)
-            f=open("kakuro2018top10","w")
-            f.write(str(top))
-            f.close()
         
     boton_top= Button(kakuro, text="Top 10",  fg= "black", bg="gold", width=2, height=1, font="Arial 12", padx=20, pady=6,state="disabled", command=top10)
     boton_top.place(x=660,y= 560)
@@ -316,6 +293,30 @@ def jugar():#funcion donde se encuentra la tabla y botones del juego
 
     lista_boton=[boton1,boton2,boton3,boton4,boton5,boton6,boton7,boton8,boton9, boton_iniciar, boton_borrar_jugada, boton_terminar, boton_top,boton_borrar_juego]
 
+def top10():
+    global texto_nombre
+    global horas, segundos, minutos
+    #nombre=StringVar()
+    #texto_nombre=Entry(kakuro, textvariable=nombre, font="Arial 10", width=30).place(x=470,y= 620)
+    lista_niveles=[]
+    name=texto_nombre.get()
+    if nivel.get()=="1 Neurona":
+        horas=horas*3600
+        minutos=minutos*60
+        datos=[]
+        segundos_total=horas+minutos+segundos
+        datos.append(name)
+        datos.append(segundos_total)
+        lista_top_uno.insert(0,datos)
+        top=dict(lista_top_uno)
+        top=sorted(top)
+        if len(lista_top_uno)>10:
+            lista_top_uno.remove(len(lista_top_uno)-1)
+        lista_niveles.append(lista_top_uno)
+        f=open("kakuro2018top10","w")
+        f.write(str(top))
+        f.close()
+        
 def frases():
     global lista_frases
     global cont_frases
@@ -578,11 +579,11 @@ def matriz_espacios():#funcion que sirve para poder obtener una matriz que muest
             cont2=cont2+1
     if cont2!=0:
         pass
-    if cont==9:
-        if nivel.get()=="Multinivel":
+    if cont==9:#caso para cuando se termino una tabla del kakuro
+        if nivel.get()=="Multinivel":#multinivel
             answer=messagebox.askquestion("Aviso","Has logrado completar el juego, deseas continuar?")
             if answer=="yes" and nivel.get()=="Multinivel":#condicion para multinivel
-                leer_archivo_partidas()
+                leer_archivo_partidas()#pasa al siguiente nivel
             else:
                 messagebox.showinfo("Felicidades"," Has completado la tabla ")# se envia un aviso
             
@@ -603,22 +604,22 @@ def borrar_jugada():
     global contenido
     if len(jugada)==0:
         messagebox.showinfo("Aviso","No has ingresado ninguna jugada para borrar!!! >:v ")# se envia un aviso
-    ultima=jugada[len(jugada)-1]
-    lista_jugada.append(ultima)
-    contenido.append(ultima.get())
-    ultima.delete(0,END)
-    jugada.remove(ultima)
+    ultima=jugada[len(jugada)-1]#se asigna la ultima jugada a una variable
+    lista_jugada.append(ultima)#se agrega a la lista de jugadas realizadas
+    contenido.append(ultima.get())#se pone el valor del entry 
+    ultima.delete(0,END)#se elimina el valor de la lista 
+    jugada.remove(ultima)#se remueve de la lista
 
 def rehacer_jugada():
     global lista_jugada
     global contenido
     global jugada
-    if len(lista_jugada)==0:
+    if len(lista_jugada)==0:#aviso por si no hay ninguna jugada rehacer
         messagebox.showinfo("Aviso","No hay ninguna por rehacer, ya que no se realizado ninguna!!!")# se envia un aviso
     lista_jugada[len(lista_jugada)-1].insert(0,contenido[len(contenido)-1])#se inserta la ultima jugada en su entry respectivo
     jugada.append(lista_jugada[len(lista_jugada)-1])
-    contenido.pop()
-    lista_jugada.remove(lista_jugada[len(lista_jugada)-1])
+    contenido.pop()#remueve el valor ultima jugada
+    lista_jugada.remove(lista_jugada[len(lista_jugada)-1])#borra la ultima direccion de memoria en la lista
 
     
 def pasa_valor():#funcion para verificar si se repiten numero en una misma columna o fila 
@@ -748,11 +749,12 @@ def combinaciones(casilla):
 
     pantalla_combi= Tk()#se crea una ventana
     pantalla_combi.title("Combinaciones")
-    pantalla_combi.geometry("800x770")#Se define el tamaño del menu
+    pantalla_combi.geometry("1200x800")#Se define el tamaño del menu
     pantalla_combi.resizable(0,0)#se redimensiona la ventana
     pantalla_combi.configure(background="green2")#se pone un color a la ventana
 
-    Label(pantalla_combi,text=combi,fg="black",bg="white",font="Arial 10").place(x=10,y=10)
+    Label(pantalla_combi,text=combi,fg="black",bg="white",font="Arial 8").place(x=10,y=10)
+    Label(pantalla_combi,text=combi_2,fg="black",bg="white",font="Arial 8").place(x=10,y=100)
 def solo_numeros(casilla):
     punto="."
     barra="/"
@@ -860,7 +862,7 @@ def configurar():#funcion que abre la ventana de configuracion
     
 
 
-def cronometro():
+def cronometro():#funcionalidad cronometro
     global et_horas, et_minutos, et_segundos
     global segundos
     global minutos
@@ -902,7 +904,7 @@ def hilo_tiempo():
     hilo=Thread(target=cronometro, args=())
     hilo.start()
     
-def timer():
+def timer():#funcionalidad timer
     global linea_horas
     global linea_minutos
     global linea_segundos
